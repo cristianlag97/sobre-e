@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Para Elisa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<script>
+/* ================== CONFIG: todo lo editable está aquí ================== */
+const CONFIG = {
+  nombre: "Elisa",
+  apodos: ["mi reina", "mi vida", "preciosa"],
+
+  preguntas: [
+    {
+      pregunta: "¿Qué crees que fue lo primero que me gustó de ti esta vez?",
+      placeholder: "Escribe lo que creas…",
+      entrada: "Mi respuesta, preciosa:",   // frase antes de tu respuesta
+      respuesta: "Lo mucho que has crecido. Hoy busco madurez en alguien… y la vi en ti.",
+      foto: "fotos/1.jpg"
+    },
+    {
+      pregunta: "¿Cuál es ese juego nuestro que para cualquiera sería absurdo?",
+      placeholder: "Ese que solo entendemos tú y yo…",
+      entrada: "El mío, mi vida:",
+      respuesta: "Ese de jugar con la lengua. Para el resto del mundo, absurdo. Para mí, de las cosas más nuestras.",
+      foto: "fotos/2.jpg"
+    },
+    {
+      pregunta: "¿Qué canción te recuerda a nosotros?",
+      placeholder: "Nombre de la canción…",
+      entrada: "La mía es esta, mi reina:",
+      respuesta: "Cuando quieras quiero — Felipe Peláez",
+      foto: "fotos/3.jpg",
+      enlace: "https://www.youtube.com/watch?v=8Ne_Ct6U4OI",
+      extrasTitulo: "y estas también son tuyas",
+      extras: [
+        { titulo: "Quédate — Manuel Medrano", enlace: "https://www.youtube.com/watch?v=c6du9gSEDu8" },
+        { titulo: "Siete palabras — Kaleth Morales", enlace: "https://www.youtube.com/watch?v=ms9XebvqFL8" },
+        { titulo: "Solo tú — El Aldeano", enlace: "https://www.youtube.com/watch?v=0nTmb1vPtls" }
+      ]
+    }
+  ],
+
+  transicion: [
+    "No hice esto para recordar lo que fuimos.",
+    "Lo hice porque me gusta descubrir qué podemos ser ahora."
+  ],
+
+  carta: {
+    audio: "carta.m4a",                     // nota de voz (m4a o mp3)
+    // [segundo en que empieza, texto] — tiempos sacados del audio real
+    frases: [
+      [0.3, "Me dijeron que no soy detallista… y probablemente tengan razón."],
+      [4.4, "Así que en vez de solo decírtelo, quise hacer algo que saliera de mí."],
+      [10.3, "No te voy a decir frases de película, como que eres la mujer perfecta."],
+      [13.7, "Te mentiría, y me mentiría a mí mismo… y ninguno de los dos quiere eso."],
+      [18.3, "Lo que sí quiero es ser honesto contigo, y decirte lo que siente mi ser:"],
+      [23.0, "Siento cosas por ti. Siempre fue así."],
+      [28.2, "No sé si sea lamentable que seamos malos ex…"],
+      [31.9, "…de esos que no se dejan en paz, que no se dejan ir."],
+      [36.8, "Pero quizás eso es lo que nos tiene hoy aquí:"],
+      [39.8, "queriendo mejorar, cada uno y los dos,"],
+      [42.3, "para que de todo esto pueda nacer algo sano."],
+      [48.4, "No quiero romantizar este proceso, porque es lo más maduro que hemos hecho."],
+      [52.8, "Pero sí quiero romantizar el hecho de que seguimos aquí."],
+      [57.0, "Han pasado seis años desde nuestro primer hola."],
+      [59.9, "Dos de ellos sin decirnos nada…"],
+      [62.3, "…pero en esos dos años aprendimos cosas que seguramente no habríamos aprendido de otra forma."],
+      [69.0, "Y esto me recuerda a One Piece:"],
+      [71.5, "la banda se separa dos años… para volver más fuerte."],
+      [75.3, "Y ahora que lo pienso, creo que nosotros también somos más fuertes que hace dos años."],
+      [81.0, "Por eso siento que sí podemos ser."],
+      [84.7, "Si somos constantes. Si somos decididos con lo que queremos, para nosotros y para el otro."],
+      [92.8, "Y como dice la canción, preciosa…"],
+      [95.8, "cuando quieras, quiero."]
+    ]
+  },
+
+  cierre: ["Esto apenas es la primera cita.", "La próxima, espero que sea juntos… en persona."]
+};
+</script>
+<style>
+:root{
+  --bg:#FBF6EF; --card:#FFFDF9; --ink:#3A2E2A; --soft:#8A7A72; --line:#E9DDD2;
+  --rose:#C9687A; --rose-soft:#F4E1E3;
+  --serif:"Cormorant Garamond", Georgia, serif; --sans:"Inter", system-ui, sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow:hidden}
+.screen{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:32px 24px;text-align:center;gap:22px;opacity:0;overflow-y:auto;justify-content:safe center;pointer-events:none;transition:opacity .9s ease}
+.screen.on{opacity:1;pointer-events:auto}
+.wrap{width:100%;max-width:420px;display:flex;flex-direction:column;align-items:center;gap:18px;margin:auto 0}
+.v{font-family:var(--serif);font-size:30px;line-height:1.3;font-weight:400}
+.v.big{font-size:38px}
+.v.muted{color:var(--soft)}
+.v i, em{font-style:italic}
+.s{font-size:14px;color:var(--soft);line-height:1.5}
+.btn{font-family:var(--sans);font-size:15px;color:var(--ink);background:transparent;border:1px solid var(--ink);
+  border-radius:999px;padding:12px 26px;cursor:pointer;transition:all .25s}
+.btn:active{transform:scale(.97)}
+.btn:hover{background:var(--ink);color:var(--bg)}
+.fade{opacity:0;transform:translateY(10px);transition:opacity .9s ease, transform .9s ease}
+.fade.in{opacity:1;transform:none}
+
+/* sobre */
+.env{width:230px;height:150px;position:relative;cursor:pointer;margin:10px 0}
+.env .body{position:absolute;inset:0;background:var(--rose-soft);border:1px solid var(--rose);border-radius:6px}
+.env .flap{position:absolute;left:0;right:0;top:0;height:95px;transform-origin:top;transition:transform .8s ease;z-index:2}
+.env .flap svg{width:100%;height:100%;display:block}
+.env .seal{position:absolute;left:50%;top:78px;transform:translate(-50%,-50%);width:38px;height:38px;border-radius:50%;
+  background:var(--rose);z-index:3;display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--serif);font-size:20px;transition:opacity .4s}
+.env.open .flap{transform:rotateX(180deg)}
+.env.open .seal{opacity:0}
+.env .paper{position:absolute;left:14px;right:14px;top:14px;bottom:10px;background:var(--card);border-radius:3px;z-index:1;transition:transform .9s ease .4s}
+.env.open .paper{transform:translateY(-70px)}
+.pulse{animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
+
+/* preguntas */
+.dots{display:flex;gap:8px}
+.dots span{width:7px;height:7px;border-radius:50%;background:var(--line)}
+.dots span.on{background:var(--rose)}
+input.ans{width:100%;font-family:var(--serif);font-size:22px;color:var(--ink);background:transparent;border:none;
+  border-bottom:1px solid var(--line);padding:10px 4px;text-align:center;outline:none}
+input.ans:focus{border-bottom-color:var(--rose)}
+input.ans::placeholder{color:#C4B6AC}
+.err{font-size:13px;color:var(--rose);min-height:18px}
+.photo{height:min(40vh,360px);width:auto;max-width:100%;aspect-ratio:4/5;flex-shrink:0;border-radius:14px;object-fit:cover;background:var(--rose-soft);
+  box-shadow:0 12px 30px -12px rgba(58,46,42,.35)}
+.said{font-size:14px;color:var(--soft);font-style:italic}
+.link{color:var(--rose);font-size:14px;text-decoration:none;border-bottom:1px solid var(--rose)}
+.extras{display:flex;flex-direction:column;gap:8px;padding-top:14px;border-top:1px solid var(--line);width:100%}
+.extras a{font-family:var(--serif);font-size:18px;color:var(--ink);text-decoration:none}
+.extras a::before{content:"♪ ";color:var(--rose)}
+
+/* audio */
+.play{width:78px;height:78px;border-radius:50%;border:1px solid var(--ink);background:transparent;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:all .3s}
+.play svg{width:26px;height:26px;fill:var(--ink)}
+.play.playing{border-color:var(--rose)}
+.play.playing svg{fill:var(--rose)}
+.bar{width:100%;height:3px;background:var(--line);border-radius:2px;overflow:hidden}
+.bar div{height:100%;width:0;background:var(--rose);transition:width .25s linear}
+.time{font-size:12px;color:var(--soft);font-variant-numeric:tabular-nums}
+.caption{min-height:150px;display:flex;align-items:center;justify-content:center}
+.caption .v{font-size:26px;transition:opacity .6s}
+.heart{color:var(--rose);font-size:26px}
+</style>
+</head>
+<body>
+
+<!-- 1. Entrada -->
+<section class="screen on" id="s-intro">
+  <div class="wrap">
+    <p class="s" id="intro-sub"></p>
+    <p class="v big">Para <span id="intro-name"></span></p>
+    <div class="env pulse" id="env" role="button" aria-label="Abrir el sobre">
+      <div class="body"></div>
+      <div class="paper"></div>
+      <div class="flap"><svg viewBox="0 0 230 95" preserveAspectRatio="none"><path d="M0,0 L115,95 L230,0 Z" fill="#F4E1E3" stroke="#C9687A" stroke-width="1"/></svg></div>
+      <div class="seal">E</div>
+    </div>
+    <p class="s">Ábrelo cuando estés lista</p>
+  </div>
+</section>
+
+<!-- 2-4. Preguntas (se generan) -->
+<div id="q-container"></div>
+
+<!-- 5. Transición -->
+<section class="screen" id="s-trans">
+  <div class="wrap">
+    <p class="v fade" id="t1"></p>
+    <p class="v muted fade" id="t2"></p>
+    <button class="btn fade" id="t-btn">Escuchar mi carta →</button>
+  </div>
+</section>
+
+<!-- 6. Carta en audio -->
+<section class="screen" id="s-audio">
+  <div class="wrap">
+    <p class="s">Una carta, pero con mi voz</p>
+    <button class="play" id="play" aria-label="Reproducir">
+      <svg viewBox="0 0 24 24" id="play-icon"><path d="M8 5v14l11-7z"/></svg>
+    </button>
+    <div class="bar"><div id="bar"></div></div>
+    <p class="time" id="time">0:00</p>
+    <div class="caption"><p class="v" id="caption"></p></div>
+    <button class="btn fade" id="a-btn">Continuar</button>
+  </div>
+  <audio id="audio" preload="auto"></audio>
+</section>
+
+<!-- 7. Cierre -->
+<section class="screen" id="s-end">
+  <div class="wrap">
+    <p class="v fade" id="e1"></p>
+    <p class="v fade" id="e2" style="font-style:italic;color:var(--rose)"></p>
+    <p class="heart fade" id="e3">♡</p>
+  </div>
+</section>
+
+<script>
+const $ = id => document.getElementById(id);
+const wait = ms => new Promise(r => setTimeout(r, ms));
+let current = $("s-intro");
+
+function go(next){
+  current.classList.remove("on");
+  next.classList.add("on");
+  current = next;
+}
+async function reveal(ids, gap = 1100){
+  for (const id of ids){ $(id).classList.add("in"); await wait(gap); }
+}
+
+/* --- Entrada --- */
+$("intro-name").textContent = CONFIG.nombre;
+$("intro-sub").textContent = "(sí, " + CONFIG.apodos[0] + ", es para ti)";
+$("env").addEventListener("click", async () => {
+  const env = $("env");
+  if (env.classList.contains("open")) return;
+  env.classList.remove("pulse");
+  env.classList.add("open");
+  await wait(1600);
+  showQuestion(0);
+});
+
+/* --- Preguntas --- */
+const qc = $("q-container");
+const total = CONFIG.preguntas.length;
+
+CONFIG.preguntas.forEach((q, i) => {
+  const dots = Array.from({length: total}, (_, k) => `<span class="${k <= i ? "on" : ""}"></span>`).join("");
+  qc.insertAdjacentHTML("beforeend", `
+  <section class="screen" id="s-q${i}">
+    <div class="wrap">
+      <div class="dots">${dots}</div>
+      <p class="v">${q.pregunta}</p>
+      <input class="ans" id="in${i}" placeholder="${q.placeholder}" autocomplete="off">
+      <p class="err" id="err${i}"></p>
+      <button class="btn" id="qb${i}">Descubrir</button>
+    </div>
+  </section>
+  <section class="screen" id="s-r${i}">
+    <div class="wrap">
+      <img class="photo fade" id="ph${i}" src="${q.foto}" alt="" onerror="this.style.display='none'">
+      <p class="said fade" id="said${i}"></p>
+      <p class="s fade" id="ent${i}">${q.entrada}</p>
+      <p class="v fade" id="res${i}">${q.respuesta}</p>
+      ${q.enlace ? `<a class="link fade" id="lk${i}" href="${q.enlace}" target="_blank" rel="noopener">Escucharla</a>` : ""}
+      ${q.extras ? `<div class="extras fade" id="ex${i}">
+        <p class="s"><em>${q.extrasTitulo}</em></p>
+        ${q.extras.map(e => `<a href="${e.enlace}" target="_blank" rel="noopener">${e.titulo}</a>`).join("")}
+      </div>` : ""}
+      <button class="btn fade" id="rb${i}">${i < total - 1 ? "Siguiente" : "Continuar"}</button>
+    </div>
+  </section>`);
+});
+
+function showQuestion(i){
+  go($("s-q" + i));
+  setTimeout(() => $("in" + i).focus(), 900);
+}
+
+CONFIG.preguntas.forEach((q, i) => {
+  const input = $("in" + i), err = $("err" + i);
+  input.addEventListener("input", () => err.textContent = "");
+  const submit = async () => {
+    const val = input.value.trim();
+    if (!val){ err.textContent = "Escribe algo primero 🙂"; return; }
+    input.blur();
+    $("said" + i).textContent = "Dijiste: “" + val + "”";
+    go($("s-r" + i));
+    await wait(700);
+    const ids = ["ph" + i, "said" + i, "ent" + i, "res" + i];
+    if (q.enlace) ids.push("lk" + i);
+    if (q.extras) ids.push("ex" + i);
+    ids.push("rb" + i);
+    reveal(ids, 900);
+  };
+  $("qb" + i).addEventListener("click", submit);
+  input.addEventListener("keydown", e => { if (e.key === "Enter") submit(); });
+  $("rb" + i).addEventListener("click", () => {
+    if (i < total - 1) showQuestion(i + 1);
+    else showTransition();
+  });
+});
+
+/* --- Transición --- */
+$("t1").textContent = CONFIG.transicion[0];
+$("t2").textContent = CONFIG.transicion[1];
+async function showTransition(){
+  go($("s-trans"));
+  await wait(900);
+  reveal(["t1", "t2", "t-btn"], 2200);
+}
+$("t-btn").addEventListener("click", () => go($("s-audio")));
+
+/* --- Audio + subtítulos sincronizados por longitud de frase --- */
+const audio = $("audio");
+audio.src = CONFIG.carta.audio;
+const frases = CONFIG.carta.frases;
+let cues = [];
+function buildCues(){
+  if (Array.isArray(frases[0])){ cues = frases.map(f => f[0]); return; }
+  const lens = frases.map(f => f.length + 12);
+  const sum = lens.reduce((a, b) => a + b, 0);
+  let t = 0;
+  cues = lens.map(l => { const start = t; t += audio.duration * l / sum; return start; });
+}
+const textoFrase = i => Array.isArray(frases[i]) ? frases[i][1] : frases[i];
+const fmt = s => Math.floor(s / 60) + ":" + String(Math.floor(s % 60)).padStart(2, "0");
+const PLAY = '<path d="M8 5v14l11-7z"/>', PAUSE = '<path d="M7 5h4v14H7zM13 5h4v14h-4z"/>';
+let shown = -1;
+
+audio.addEventListener("loadedmetadata", buildCues);
+$("play").addEventListener("click", () => {
+  if (audio.paused){ audio.play(); } else { audio.pause(); }
+});
+audio.addEventListener("play", () => { $("play").classList.add("playing"); $("play-icon").innerHTML = PAUSE; });
+audio.addEventListener("pause", () => { $("play").classList.remove("playing"); $("play-icon").innerHTML = PLAY; });
+audio.addEventListener("timeupdate", () => {
+  if (!audio.duration) return;
+  if (!cues.length) buildCues();
+  $("bar").style.width = (audio.currentTime / audio.duration * 100) + "%";
+  $("time").textContent = fmt(audio.currentTime) + " / " + fmt(audio.duration);
+  let idx = -1;
+  for (let k = 0; k < cues.length; k++) if (audio.currentTime >= cues[k]) idx = k;
+  if (idx >= 0 && idx !== shown){
+    shown = idx;
+    const c = $("caption");
+    c.style.opacity = 0;
+    setTimeout(() => { c.textContent = textoFrase(idx); c.style.opacity = 1; }, 350);
+  }
+});
+audio.addEventListener("ended", () => $("a-btn").classList.add("in"));
+audio.addEventListener("error", () => $("a-btn").classList.add("in"));
+$("a-btn").addEventListener("click", async () => {
+  audio.pause();
+  go($("s-end"));
+  await wait(900);
+  reveal(["e1", "e2", "e3"], 2000);
+});
+
+/* --- Cierre --- */
+$("e1").textContent = CONFIG.cierre[0];
+$("e2").textContent = CONFIG.cierre[1];
+</script>
+</body>
+</html>
